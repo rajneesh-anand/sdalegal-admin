@@ -8,9 +8,14 @@ const assetPrefix = isProd
   ? "https://gulshan.vercel.app"
   : "http://localhost:3000";
 
+const apiUrl = isProd
+  ? "https://sdalegal.herokuapp.com/api"
+  : "https://localhost:8080/api";
+
 module.exports = withImages({
   env: {
     PUBLIC_URL: "",
+    API_URL: apiUrl,
     baseUrl: assetPrefix,
   },
   images: {
