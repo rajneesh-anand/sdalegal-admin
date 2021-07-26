@@ -5,7 +5,7 @@ const withImages = require("next-images");
 const isProd = process.env.NODE_ENV === "production";
 
 const assetPrefix = isProd
-  ? "https://gulshan.vercel.app"
+  ? "https://sdalegal-admin.vercel.app"
   : "http://localhost:3000";
 
 const apiUrl = isProd
