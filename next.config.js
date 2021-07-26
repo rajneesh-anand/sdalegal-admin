@@ -10,7 +10,7 @@ const assetPrefix = isProd
 
 const apiUrl = isProd
   ? "https://sdalegal.herokuapp.com/api"
-  : "https://localhost:8080/api";
+  : "https://sdalegal.herokuapp.com/api";
 
 module.exports = withImages({
   env: {

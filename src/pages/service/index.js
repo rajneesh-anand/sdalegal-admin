@@ -13,6 +13,7 @@ import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import ToastMessage from "components/Snackbar/Snackbar.js";
 import DropzoneComponent from "components/Dropzone/Dropzone.js";
+import Seo from "components/Seo";
 import Admin from "layouts/Admin.js";
 
 import {
@@ -152,6 +153,7 @@ function ServicePage() {
         lower: true,
       })
     );
+    console.log(`${process.env.API_URL}/service`);
 
     await fetch(`${process.env.API_URL}/service`, {
       method: "POST",
@@ -180,7 +182,8 @@ function ServicePage() {
   };
 
   return (
-    <>
+    <React.Fragment>
+      <Seo title="New Service | SDA LEGAL" />
       <form className={classes.root}>
         <GridContainer>
           <DropzoneComponent onDrop={onDrop} files={selectedImage} />
@@ -472,7 +475,7 @@ function ServicePage() {
         message={message}
         onClose={handleClose}
       />
-    </>
+    </React.Fragment>
   );
 }
 

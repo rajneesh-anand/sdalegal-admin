@@ -3,6 +3,7 @@ import { signIn, getCsrfToken, getSession } from "next-auth/client";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Seo from "components/Seo";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,10 +23,12 @@ export default function SignInPage({ csrfToken }) {
 
   return (
     <div className="signin-area">
+      <Seo title="SIgn In | Admin" />
       <Grid container className={classes.root}>
         <Grid item xs={12}>
           <div className="logo">
-            <img src="/img/logo.png" alt="logo" />
+            {/* <img src="/img/logo.png" alt="logo" /> */}
+            <p>SDA LEGAL</p>
           </div>
         </Grid>
         <Grid item sm={6} xs={12}>
@@ -75,6 +78,26 @@ export default function SignInPage({ csrfToken }) {
                 </button>
               </div>
             </form>
+          </div>
+          <div className="privacy">
+            <p>
+              By Login, you agree to SDA LEGAL
+              <a
+                href={process.env.PUBLIC_URL + "/termsofservices"}
+                target="_blank"
+              >
+                {" "}
+                Terms of Services{" "}
+              </a>
+              and
+              <a
+                href={process.env.PUBLIC_URL + "/privacypolicy"}
+                target="_blank"
+              >
+                {" "}
+                Privacy Policy
+              </a>
+            </p>
           </div>
         </Grid>
       </Grid>

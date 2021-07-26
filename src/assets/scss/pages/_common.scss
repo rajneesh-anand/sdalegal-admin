@@ -1,6 +1,29 @@
 
-/*-------- Page-Not-Found Style Css --------*/
-
+.service-list-area{
+  img{
+    height: 120px;
+    width: 100%;
+  }
+  a{
+    border: 1px solid purple;
+    padding: 3px 16px;
+    font-size: 13.5px;
+    font-family: 'Roboto';
+    background: purple;
+    color: white;
+    margin: 8px;
+    &:hover{
+      background: rgb(92, 6, 92);
+      color: white;
+    }
+  }
+  .MuiCardContent-root{
+    padding: 0px 6px;
+  }
+  .MuiCardActions-root {   
+    justify-content: flex-end !important;
+  }
+}
 .page-not-found-area {
   align-items: center;
   display: flex;
@@ -435,7 +458,7 @@ border: 1px solid teal;
   font-family: 'Roboto';
   background: purple;
   color: white;
-  margin: 8px;
+ 
   &:hover{
     background: rgb(92, 6, 92);
     color: white;

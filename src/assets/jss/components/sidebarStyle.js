@@ -69,7 +69,6 @@ const sidebarStyle = (theme) => ({
       content: '""',
       position: "absolute",
       bottom: "0",
-
       height: "1px",
       right: "15px",
       width: "calc(100% - 30px)",
@@ -82,11 +81,11 @@ const sidebarStyle = (theme) => ({
     padding: "5px 0",
     display: "block",
     fontSize: "18px",
-    textAlign: "left",
+    textAlign: "center",
     fontWeight: "400",
     lineHeight: "30px",
     textDecoration: "none",
-    backgroundColor: "transparent",
+    // backgroundColor: "purple",
     "&,&:hover": {
       color: whiteColor,
     },

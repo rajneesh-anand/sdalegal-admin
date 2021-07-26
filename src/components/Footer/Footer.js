@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
+import Link from "next/link";
 // core components
 import styles from "assets/jss/components/footerStyle.js";
 
@@ -17,24 +18,24 @@ export default function Footer(props) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a href="#home" className={classes.block}>
-                Home
-              </a>
+              <Link href="/dashboard">
+                <a className={classes.block}>Home</a>
+              </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#company" className={classes.block}>
-                Company
-              </a>
+              <Link href="/contact">
+                <a className={classes.block}>Contact</a>
+              </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#portfolio" className={classes.block}>
-                Portfolio
-              </a>
+              <Link href="/termsofservices">
+                <a className={classes.block}>Terms of Services</a>
+              </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={classes.block}>
-                Blog
-              </a>
+              <Link href="/privacypolicy">
+                <a className={classes.block}>Privacy Policy</a>
+              </Link>
             </ListItem>
           </List>
         </div>
@@ -46,9 +47,8 @@ export default function Footer(props) {
               target="_blank"
               className={classes.a}
             >
-              Creative Tim
+              All rights reserved to SDA LEGAL
             </a>
-            , made with love for a better web
           </span>
         </p>
       </div>

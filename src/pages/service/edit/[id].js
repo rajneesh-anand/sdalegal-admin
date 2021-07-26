@@ -86,10 +86,10 @@ function ServiceEditPage({ post }) {
   });
 
   const data = {
-    gst: serviceData.Gst,
-    status: serviceData.Status ? "Active" : "Inactive",
-    usage: serviceData.Usage,
-    category: serviceData.Category,
+    gst: serviceData.gst,
+    status: serviceData.status ? "Active" : "Inactive",
+    usage: serviceData.usage,
+    category: serviceData.category,
   };
 
   const handleClose = (event, reason) => {
@@ -115,10 +115,10 @@ function ServiceEditPage({ post }) {
       ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
     };
     setEditorLoaded(true);
-    setValue("service_name", serviceData.ServiceName);
-    setValue("service_desc", serviceData.Description);
-    setValue("service_fee", serviceData.ServiceFee);
-    setValue("sale_price", serviceData.SaleFee);
+    setValue("service_name", serviceData.serviceName);
+    setValue("service_desc", serviceData.description);
+    setValue("service_fee", serviceData.serviceFee);
+    setValue("sale_price", serviceData.saleFee);
   }, []);
 
   const onCatSelect = (event) => {
@@ -149,7 +149,7 @@ function ServiceEditPage({ post }) {
     formData.append(
       "sub_category",
       subCat.length === 0
-        ? JSON.stringify(serviceData.SubCategories)
+        ? JSON.stringify(serviceData.subCategories)
         : JSON.stringify(subCat)
     );
     formData.append("status", data.status === "Active" ? true : false);
@@ -390,7 +390,7 @@ function ServiceEditPage({ post }) {
           <GridItem xs={6} sm={4} md={4}>
             <Multiselect
               options={serviceSubCategoryOptions}
-              selectedValues={serviceData.SubCategories}
+              selectedValues={serviceData.subCategories}
               onSelect={onCatSelect}
               onRemove={onCatRemove}
               placeholder="+ Add Sub Category"

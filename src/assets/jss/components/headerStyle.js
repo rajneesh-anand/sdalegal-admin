@@ -13,7 +13,6 @@ import {
 
 const headerStyle = () => ({
   appBar: {
-    backgroundColor: "transparent",
     boxShadow: "none",
     borderBottom: "0",
     marginBottom: "0",
@@ -23,13 +22,15 @@ const headerStyle = () => ({
     borderBottom: "1px solid #ddd",
     // paddingTop: "10px",
     zIndex: "1029",
-    color: "teal",
+    color: "purple",
+
     border: "0",
     borderRadius: "3px",
     // padding: "10px 0",
     transition: "all 150ms ease 0s",
     // minHeight: "50px",
     display: "block",
+    fontFamily: "Roboto",
   },
   container: {
     ...container,
@@ -45,6 +46,8 @@ const headerStyle = () => ({
     fontSize: "18px",
     borderRadius: "3px",
     textTransform: "none",
+    fontWeight: "500 !important",
+
     color: "inherit",
     margin: "0",
     "&:hover,&:focus": {
