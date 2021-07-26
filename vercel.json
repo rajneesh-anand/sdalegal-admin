@@ -1,6 +1,5 @@
 {
-    "build": {
-      "env": {
+         "env": {
         "DATABASE_URL": "postgres://uxwrqezkmhwmge:b5f02152ab4e684d725aa11f29475513da8c8c48b1cb9db12f181ec7caa3c9c5@ec2-54-243-92-68.compute-1.amazonaws.com:5432/d6tdh19324ui77",
         "NEXTAUTH_URL" : "http://localhost:3000",
         "AUTH_SECRET":"af7ad0f24cc8573fafgftyfb3fa266d4e228ded",
@@ -18,5 +17,5 @@
         "API_URL" :"http://localhost:8080/api"
         
       }
-    }
+    
   }
