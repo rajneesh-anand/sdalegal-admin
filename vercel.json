@@ -14,7 +14,8 @@
         "EMAIL_SERVER_PASSWORD":"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",
         "EMAIL_FROM":"osho.ved@hotmail.com",     
         "FACEBOOK_CLIENT_ID":"4731248656989564",
-        "FACEBOOK_CLIENT_SECRET":"c884868c3aa05470149b0aebdb43549c"
+        "FACEBOOK_CLIENT_SECRET":"c884868c3aa05470149b0aebdb43549c",
+        "API_URL" :"http://localhost:8080/api"
         
       }
     }

@@ -153,7 +153,7 @@ function ServicePage() {
       })
     );
 
-    await fetch("http://localhost:8080/api/service", {
+    await fetch(`${process.env.API_URL}/service`, {
       method: "POST",
       body: formData,
     })

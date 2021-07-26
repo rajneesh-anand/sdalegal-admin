@@ -162,7 +162,7 @@ function ServiceEditPage({ post }) {
       })
     );
 
-    await fetch(`http://localhost:8080/api/service/${serviceData.id}`, {
+    await fetch(`${process.env.API_URL}/service/${serviceData.id}`, {
       method: "POST",
       body: formData,
     })
