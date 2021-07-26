@@ -108,14 +108,14 @@ export default function SignInPage({ csrfToken }) {
 export async function getServerSideProps(context) {
   const csrfToken = await getCsrfToken(context);
   const session = await getSession(context);
-  if (session) {
-    return {
-      redirect: {
-        destination: "/dashboard",
-        permanent: false,
-      },
-    };
-  }
+  // if (session) {
+  //   return {
+  //     redirect: {
+  //       destination: "/dashboard",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
   return {
     props: { csrfToken },
   };
