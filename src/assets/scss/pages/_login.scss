@@ -1,0 +1,83 @@
+.signin-area{
+.logo{
+  text-align: start;
+    margin-left: 8px;
+    // margin-top: 16px;
+    padding: 16px;
+    border-bottom: 1px solid black;
+    @media #{$xs-device} {
+      text-align: center;
+    }
+    @media #{$xxs-device} {
+      text-align: center;
+    }
+}
+
+
+.google {
+  border: none;
+  background-color:#ea4335; 
+  color: #ffffff;
+  width: 248px;
+  margin-bottom: 16px;
+  padding: 8px 0px;
+  font-size: 16px;
+  font-family: 'Roboto';
+  cursor: pointer;
+  i{
+    height: 20px;
+    width: 20px;  
+    margin: 0 8px;
+  }
+
+}
+
+.facebook {
+  border: none;
+  background-color: #3b5998;
+  color: #ffffff;
+  width: 248px;
+  margin-bottom: 16px;
+  padding: 8px 0px;
+  font-size: 16px;
+  font-family: 'Roboto';
+  cursor: pointer;
+  i{
+    height: 24px;
+    width: 24px;  
+    margin: 0 8px;
+  }
+
+}
+
+.email {
+  border: none;
+  background-color:teal;
+  color: #ffffff;
+  width: 248px;
+  margin-bottom: 16px;
+  padding: 8px 0px;
+  font-size: 16px;
+  font-family: 'Roboto';
+  cursor: pointer;
+  i{
+    height: 20px;
+    width: 20px;  
+    margin: 0 8px;
+  }
+
+}
+
+input{
+  width: 244px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+  height: 28px;
+ 
+  font-size: 13.5px;
+  font-family: 'Roboto';
+  &:hover{
+    border :1px solid teal
+  }
+}
+}

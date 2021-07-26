@@ -1,0 +1,32 @@
+export const serviceCategoryOptions = [
+  { value: "Rent Agreement", text: "Rent Agreement" },
+  { value: "Firm Registration", text: "Firm Registration" },
+];
+
+export const serviceSubCategoryOptions = [
+  "News",
+  "Sports",
+  "Science",
+  "Yoga",
+  "People",
+  "Nature",
+  "City",
+  "Jobs",
+  "Travel",
+  "Fashion",
+  "Mobile",
+  "Health",
+  "Spirituality",
+  "Asana",
+  "Anxiety",
+  "Ayurveda",
+  "Skin",
+  "Hair",
+  "Acne",
+  "Weight Loss",
+  "Chakra",
+  "Massage",
+  "Immunity",
+  "Fitness",
+  "Strength",
+];
