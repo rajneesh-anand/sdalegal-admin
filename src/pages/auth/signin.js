@@ -40,7 +40,7 @@ export default function SignInPage({ csrfToken }) {
               className="google"
               onClick={() =>
                 signIn("google", {
-                  callbackUrl: "http://localhost:3000",
+                  callbackUrl: "https://sdalegal-admin.vercel.app",
                 })
               }
             >
@@ -53,7 +53,7 @@ export default function SignInPage({ csrfToken }) {
               className="facebook"
               onClick={() =>
                 signIn("facebook", {
-                  callbackUrl: "http://localhost:3000",
+                  callbackUrl: "https://sdalegal-admin.vercel.app",
                 })
               }
             >
