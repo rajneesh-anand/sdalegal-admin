@@ -14,7 +14,7 @@ export default function Footer(props) {
   const classes = useStyles();
   return (
     <footer className={classes.footer}>
-      <div className={classes.container}>
+      <div className="footer-area">
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
@@ -29,12 +29,16 @@ export default function Footer(props) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <Link href="/termsofservices">
-                <a className={classes.block}>Terms of Services</a>
+                <a className={classes.block} target="_blank">
+                  Terms of Services
+                </a>
               </Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <Link href="/privacypolicy">
-                <a className={classes.block}>Privacy Policy</a>
+                <a className={classes.block} target="_blank">
+                  Privacy Policy
+                </a>
               </Link>
             </ListItem>
           </List>

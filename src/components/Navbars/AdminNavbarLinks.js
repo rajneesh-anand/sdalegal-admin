@@ -79,7 +79,7 @@ export default function AdminNavbarLinks() {
             {session ? (
               <img
                 src={session.user.image}
-                alt="profile-photo"
+                alt={session.user.name}
                 height="22"
                 width="22"
                 style={{ borderRadius: "50%" }}
@@ -87,9 +87,6 @@ export default function AdminNavbarLinks() {
             ) : (
               <Person />
             )}
-            <Hidden mdUp implementation="css">
-              <p className={classes.linkText}>Profile</p>
-            </Hidden>
           </Button>
           <Poppers
             open={Boolean(openProfile)}

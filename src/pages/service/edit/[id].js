@@ -14,6 +14,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import ToastMessage from "components/Snackbar/Snackbar.js";
 import DropzoneComponent from "components/Dropzone/Dropzone.js";
 import Admin from "layouts/Admin.js";
+import prisma from "libs/prisma";
 
 import {
   serviceSubCategoryOptions,

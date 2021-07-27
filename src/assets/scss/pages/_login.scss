@@ -103,3 +103,51 @@ input{
 }
 }
 
+.sidebar-drawer-mobile{
+  text-align: center;
+  padding: 16px;
+  border-bottom: 1px solid #ddd;
+
+  img{
+    height:64px;
+    width:64px;
+    border-radius: 50%;
+  }
+  svg{
+    height:64px;
+    width:64px;
+    border-radius: 50%;
+    color: gray;
+    background-color: white;
+  }
+
+  p{
+    color:white;
+    margin: 4px !important;
+    font-size: 13.5px;
+    font-family: 'Roboto';
+    
+  }
+  button{
+    border:none;
+    font-family: 'Roboto';
+    padding: 4px 8px;
+    cursor: pointer;
+
+  }
+  .signIn-mobile-drawer{
+    margin-top: 6px;
+  a{
+    border: 1px solid #ddd;
+    font-family: 'Roboto';
+    color:white;
+    padding: 4px 8px;
+  
+
+  }
+}
+
+
+
+}
+

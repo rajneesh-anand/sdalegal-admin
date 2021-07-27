@@ -13,7 +13,7 @@ const appStyle = (theme) => ({
     overflow: "auto",
     position: "relative",
     float: "right",
-    ...transition,
+    // ...transition,
     maxHeight: "100%",
     width: "100%",
     overflowScrolling: "touch",

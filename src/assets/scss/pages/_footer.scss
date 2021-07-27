@@ -1,0 +1,15 @@
+.footer-area{
+    display: flex;
+    justify-content: space-between;
+    @media #{$xs-device} {
+        flex-direction: column;
+        text-align: center;
+      }
+      @media #{$xxs-device} {
+        flex-direction: column;
+        text-align: center;
+      }
+
+}
+   
+  

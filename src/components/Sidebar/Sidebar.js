@@ -1,9 +1,10 @@
-/*eslint-disable*/
-import React from "react";
+import React, { useEffect } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { signOut, useSession } from "next-auth/client";
+import Person from "@material-ui/icons/Person";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -18,6 +19,7 @@ import styles from "assets/jss/components/sidebarStyle.js";
 
 export default function Sidebar(props) {
   const router = useRouter();
+  const [session, loading] = useSession();
 
   const useStyles = makeStyles(styles);
   const classes = useStyles();
@@ -26,6 +28,14 @@ export default function Sidebar(props) {
     return router.pathname === routeName ? true : false;
   }
   const { color, logo, image, logoText, routes } = props;
+
+  useEffect(() => {
+    if (!loading) {
+      if (!session) {
+        router.push("/auth/signin");
+      }
+    }
+  }, [session, loading]);
 
   var links = (
     <List className={classes.list}>
@@ -91,17 +101,23 @@ export default function Sidebar(props) {
             keepMounted: true,
           }}
         >
-          {brand}
-          <div className={classes.sidebarWrapper}>
-            <AdminNavbarLinks />
-            {links}
-          </div>
-          {image !== undefined ? (
-            <div
-              className={classes.background}
-              style={{ backgroundImage: "url(" + image + ")" }}
-            />
-          ) : null}
+          {session ? (
+            <div className="sidebar-drawer-mobile">
+              <img src={session.user.image} alt={session.user.name} />
+              <p>{session.user.name}</p>
+              <button onClick={() => signOut()}>Sign Out</button>
+            </div>
+          ) : (
+            <div className="sidebar-drawer-mobile">
+              <Person />
+              <div className="signIn-mobile-drawer">
+                <Link href="/auth/signin">
+                  <a>Sign In</a>
+                </Link>
+              </div>
+            </div>
+          )}
+          {links}
         </Drawer>
       </Hidden>
 
@@ -114,8 +130,27 @@ export default function Sidebar(props) {
             paper: classNames(classes.drawerPaper),
           }}
         >
-          {brand}
-          <div className={classes.sidebarWrapper}>{links}</div>
+          {/* {brand} */}
+
+          <div className={classes.sidebarWrapper}>
+            {session ? (
+              <div className="sidebar-drawer-mobile">
+                <img src={session.user.image} alt={session.user.name} />
+                <p>{session.user.name}</p>
+                <button onClick={() => signOut()}>Sign Out</button>
+              </div>
+            ) : (
+              <div className="sidebar-drawer-mobile">
+                <Person />
+                <div className="signIn-mobile-drawer">
+                  <Link href="/auth/signin">
+                    <a>Sign In</a>
+                  </Link>
+                </div>
+              </div>
+            )}
+            {links}
+          </div>
           {image !== undefined ? (
             <div
               className={classes.background}
