@@ -47,6 +47,34 @@ model Product {
   createdAt     DateTime  @default(now()) 
 }
 
+model Categories {
+  id        Int  @default(autoincrement()) @id
+  name     String? @unique
+  description String?
+  slug String?
+  services  Services[] 
+}
+
+
+model Services {
+  id       Int     @default(autoincrement()) @id
+  serviceName     String?
+  slug String?
+  images    String[]
+  description String? 
+  subCategories   String[] 
+  serviceFee    Decimal 
+  saleFee Decimal
+  discount Decimal?
+  gst Decimal? 
+  usage String?
+  status Boolean @default(true) 
+  createdAt     DateTime  @default(now()) 
+  categoryId  Int?
+  category    Categories?   @relation(fields: [categoryId], references: [id])
+ 
+}
+
 
 
 
@@ -73,23 +101,6 @@ model Orders {
  
 }
 
-
-model Services {
-  id       Int     @default(autoincrement()) @id
-  serviceName     String?
-  slug String?
-  images    String[]
-  description String?
-  category    String?
-  subCategories   String[] 
-  serviceFee    Decimal 
-  saleFee Decimal
-  discount Decimal?
-  gst Decimal? 
-  usage String?
-  status Boolean @default(true) 
-  createdAt     DateTime  @default(now()) 
-}
 
 
 

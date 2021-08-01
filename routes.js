@@ -14,6 +14,11 @@ const Routes = [
     icon: Dashboard,
   },
   {
+    path: "/category",
+    name: "Category",
+    icon: Dashboard,
+  },
+  {
     path: "/users",
     name: "Users",
     icon: Person,

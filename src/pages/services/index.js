@@ -44,14 +44,12 @@ function ServiceListPage({ data }) {
                   />
 
                   <CardContent>
-                    <Typography gutterBottom variant="h6" component="h2">
-                      {item.serviceName}
-                    </Typography>
-                    <Typography variant="body2" component="p">
+                    <Typography gutterBottom>{item.serviceName}</Typography>
+                    {/* <Typography variant="body2" component="p">
                       Description : {item.description}
-                    </Typography>
+                    </Typography> */}
                     <Typography variant="body2" component="p">
-                      Category : {item.category}
+                      Category : {item.category.name}
                     </Typography>
                     <Typography variant="body2" component="p">
                       Service Fee : {CURRENCY.INR}

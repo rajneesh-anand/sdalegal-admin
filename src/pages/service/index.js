@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ServicePage() {
+function ServicePage({ categories }) {
   const editorRef = useRef();
   const { CKEditor, ClassicEditor } = editorRef.current || {};
   const [editorLoaded, setEditorLoaded] = useState(false);
@@ -122,7 +122,6 @@ function ServicePage() {
 
   const onSubmit = async (data) => {
     setProcessingTo(true);
-
     const formData = new FormData();
     for (let i = 0; i < selectedImage.length; i += 1) {
       formData.append("images", selectedImage[i]);
@@ -371,11 +370,15 @@ function ServicePage() {
                         id: "category",
                       }}
                     >
-                      {serviceCategoryOptions.map((item, i) => (
-                        <option key={i} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
+                      {categories ? (
+                        categories.map((item, i) => (
+                          <option key={i} value={item.name}>
+                            {item.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="Add Category">Add Category</option>
+                      )}
                     </Select>
                   </FormControl>
                 )}
@@ -493,7 +496,11 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  const result = await fetch(`${process.env.NEXTAUTH_URL}/api/categories`);
+  const data = await result.json();
+
   return {
-    props: {},
+    props: { categories: data.data },
   };
 }

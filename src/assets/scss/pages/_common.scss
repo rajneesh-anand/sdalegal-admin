@@ -464,3 +464,21 @@ border: 1px solid teal;
     color: white;
   }
 }
+
+.new-category-form{
+  .MuiGrid-item{
+    margin: 8px 4px;
+  }
+  .MuiFormControl-root{
+    width: 100%;
+  }
+  .MuiInputBase-root{
+    input{
+      padding: 10px 14px;
+    }
+  }
+  .MuiFormLabel-root{
+    color:black
+  }
+
+}

@@ -6,7 +6,9 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "pg:run": "npx prisma db push --preview-feature"
+    "pg:run": "npx prisma db push --preview-feature",
+    "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",

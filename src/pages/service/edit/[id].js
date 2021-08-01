@@ -14,7 +14,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import ToastMessage from "components/Snackbar/Snackbar.js";
 import DropzoneComponent from "components/Dropzone/Dropzone.js";
 import Admin from "layouts/Admin.js";
-import prisma from "libs/prisma";
+import { useRouter } from "next/router";
 
 import {
   serviceSubCategoryOptions,
@@ -63,8 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ServiceEditPage({ post }) {
-  const serviceData = JSON.parse(post);
+function ServiceEditPage({ categories }) {
   const editorRef = useRef();
   const { CKEditor, ClassicEditor } = editorRef.current || {};
   const [editorLoaded, setEditorLoaded] = useState(false);
@@ -75,23 +74,14 @@ function ServiceEditPage({ post }) {
   const [subCat, setSubCat] = useState([]);
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState();
+  const [editData, setEditData] = useState();
+  const router = useRouter();
   const classes = useStyles();
 
-  const {
-    handleSubmit,
-    setValue,
-    formState: { errors },
-    control,
-  } = useForm({
+  const { handleSubmit, setValue, control } = useForm({
     mode: "onBlur",
   });
-
-  const data = {
-    gst: serviceData.gst,
-    status: serviceData.status ? "Active" : "Inactive",
-    usage: serviceData.usage,
-    category: serviceData.category,
-  };
+  const { id } = router.query;
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -110,16 +100,16 @@ function ServiceEditPage({ post }) {
     );
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
     editorRef.current = {
       CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
       ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
     };
     setEditorLoaded(true);
-    setValue("service_name", serviceData.serviceName);
-    setValue("service_desc", serviceData.description);
-    setValue("service_fee", serviceData.serviceFee);
-    setValue("sale_price", serviceData.saleFee);
+    const res = await fetch(`/api/service/${id}`);
+    const result = await res.json();
+    const data = result.data;
+    setEditData(data);
   }, []);
 
   const onCatSelect = (event) => {
@@ -150,7 +140,7 @@ function ServiceEditPage({ post }) {
     formData.append(
       "sub_category",
       subCat.length === 0
-        ? JSON.stringify(serviceData.subCategories)
+        ? JSON.stringify(editData.subCategories)
         : JSON.stringify(subCat)
     );
     formData.append("status", data.status === "Active" ? true : false);
@@ -163,7 +153,7 @@ function ServiceEditPage({ post }) {
       })
     );
 
-    await fetch(`${process.env.API_URL}/service/${serviceData.id}`, {
+    await fetch(`${process.env.API_URL}/service/${editData.id}`, {
       method: "POST",
       body: formData,
     })
@@ -191,290 +181,298 @@ function ServiceEditPage({ post }) {
 
   return (
     <>
-      <form className={classes.root}>
-        <GridContainer>
-          <DropzoneComponent onDrop={onDrop} files={selectedImage} />
-          <GridItem xs={12} sm={12} md={12}>
-            <Controller
-              name="service_name"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  label="Service Name"
-                  variant="outlined"
-                  value={value}
-                  onChange={onChange}
-                  InputProps={{
-                    className: classes.input,
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                />
-              )}
-              rules={{ required: " Service Name is required !" }}
-            />
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-            <Controller
-              name="service_desc"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  label="Brief Description"
-                  variant="outlined"
-                  value={value}
-                  onChange={onChange}
-                  InputProps={{
-                    className: classes.input,
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                />
-              )}
-              rules={{ required: "Brief Introduction is required" }}
-            />
-          </GridItem>
-
-          <GridItem xs={6} sm={4} md={4}>
-            <Controller
-              name="service_fee"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  label="Service Fee"
-                  variant="outlined"
-                  value={value}
-                  onChange={onChange}
-                  InputProps={{
-                    className: classes.input,
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                />
-              )}
-              rules={{
-                required: "Service Fee is required",
-                pattern: {
-                  value: /^([\d]{0,6})(\.[\d]{1,2})?$/,
-                  message: "Accept only decimal numbers",
-                },
-              }}
-            />
-          </GridItem>
-          <GridItem xs={6} sm={4} md={4}>
-            <Controller
-              name="sale_price"
-              control={control}
-              defaultValue=""
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <TextField
-                  label="Sale Fee"
-                  variant="outlined"
-                  value={value}
-                  onChange={onChange}
-                  InputProps={{
-                    className: classes.input,
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  error={!!error}
-                  helperText={error ? error.message : null}
-                />
-              )}
-              rules={{
-                required: "Sale Fee is required",
-                pattern: {
-                  value: /^([\d]{0,6})(\.[\d]{1,2})?$/,
-                  message: "Accept only decimal numbers",
-                },
-              }}
-            />
-          </GridItem>
-
-          <GridItem xs={6} sm={4} md={4}>
-            <Controller
-              name="gst"
-              control={control}
-              defaultValue={data.gst}
-              render={({
-                field: { onChange, value },
-                fieldState: { error },
-              }) => (
-                <FormControl
-                  variant="outlined"
-                  className={classes.formControl}
-                  size="small"
-                >
-                  <InputLabel htmlFor="gst_rate">GST Rate</InputLabel>
-                  <Select
-                    native
-                    defaultValue={data.gst}
+      {editData && (
+        <form className={classes.root}>
+          <GridContainer>
+            <DropzoneComponent onDrop={onDrop} files={selectedImage} />
+            <GridItem xs={12} sm={12} md={12}>
+              <Controller
+                name="service_name"
+                control={control}
+                defaultValue={editData.serviceName}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    label="Service Name"
+                    variant="outlined"
+                    value={value}
                     onChange={onChange}
-                    label="GST Rate"
-                    inputProps={{
-                      id: "gst_rate",
+                    InputProps={{
+                      className: classes.input,
                     }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                  />
+                )}
+                rules={{ required: " Service Name is required !" }}
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={12}>
+              <Controller
+                name="service_desc"
+                control={control}
+                defaultValue={editData.description}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    label="Brief Description"
+                    variant="outlined"
+                    value={value}
+                    onChange={onChange}
+                    InputProps={{
+                      className: classes.input,
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                  />
+                )}
+                rules={{ required: "Brief Introduction is required" }}
+              />
+            </GridItem>
+
+            <GridItem xs={6} sm={4} md={4}>
+              <Controller
+                name="service_fee"
+                control={control}
+                defaultValue={editData.serviceFee}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    label="Service Fee"
+                    variant="outlined"
+                    value={value}
+                    onChange={onChange}
+                    InputProps={{
+                      className: classes.input,
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                  />
+                )}
+                rules={{
+                  required: "Service Fee is required",
+                  pattern: {
+                    value: /^([\d]{0,6})(\.[\d]{1,2})?$/,
+                    message: "Accept only decimal numbers",
+                  },
+                }}
+              />
+            </GridItem>
+            <GridItem xs={6} sm={4} md={4}>
+              <Controller
+                name="sale_price"
+                control={control}
+                defaultValue={editData.saleFee}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <TextField
+                    label="Sale Fee"
+                    variant="outlined"
+                    value={value}
+                    onChange={onChange}
+                    InputProps={{
+                      className: classes.input,
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                  />
+                )}
+                rules={{
+                  required: "Sale Fee is required",
+                  pattern: {
+                    value: /^([\d]{0,6})(\.[\d]{1,2})?$/,
+                    message: "Accept only decimal numbers",
+                  },
+                }}
+              />
+            </GridItem>
+
+            <GridItem xs={6} sm={4} md={4}>
+              <Controller
+                name="gst"
+                control={control}
+                defaultValue={editData.gst}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { error },
+                }) => (
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                    size="small"
                   >
-                    <option value="3">3 %</option>
-                    <option value="5">5 %</option>
-                    <option value="12">12 %</option>
-                    <option value="18">18 %</option>
-                    <option value="28">28 %</option>
-                    <option value="0">Exempted</option>
-                  </Select>
-                </FormControl>
+                    <InputLabel htmlFor="gst_rate">GST Rate</InputLabel>
+                    <Select
+                      native
+                      defaultValue={editData.gst}
+                      onChange={onChange}
+                      label="GST Rate"
+                      inputProps={{
+                        id: "gst_rate",
+                      }}
+                    >
+                      <option value="3">3 %</option>
+                      <option value="5">5 %</option>
+                      <option value="12">12 %</option>
+                      <option value="18">18 %</option>
+                      <option value="28">28 %</option>
+                      <option value="0">Exempted</option>
+                    </Select>
+                  </FormControl>
+                )}
+              />
+            </GridItem>
+
+            <GridItem xs={6} sm={4} md={4}>
+              <div className={classes.select}>
+                <Controller
+                  name="category"
+                  defaultValue={editData.category.name}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <FormControl
+                      variant="outlined"
+                      className={classes.formControl}
+                      size="small"
+                    >
+                      <InputLabel htmlFor="category">
+                        Service Category
+                      </InputLabel>
+                      <Select
+                        native
+                        defaultValue={editData.category.name}
+                        onChange={onChange}
+                        label="Service Category"
+                        inputProps={{
+                          id: "category",
+                        }}
+                      >
+                        {categories ? (
+                          categories.map((item, i) => (
+                            <option key={i} value={item.name}>
+                              {item.name}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="Add Category">Add category</option>
+                        )}
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+              </div>
+            </GridItem>
+            <GridItem xs={6} sm={4} md={4}>
+              <Multiselect
+                options={serviceSubCategoryOptions}
+                selectedValues={editData.subCategories}
+                onSelect={onCatSelect}
+                onRemove={onCatRemove}
+                placeholder="+ Add Sub Category"
+                id="catOption"
+                isObject={false}
+                className="catDrowpdown"
+              />
+            </GridItem>
+
+            <GridItem xs={6} sm={4} md={4}>
+              <div className={classes.select}>
+                <Controller
+                  name="status"
+                  control={control}
+                  defaultValue={editData.status ? "Active" : "Inactive"}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <FormControl
+                      variant="outlined"
+                      className={classes.formControl}
+                      size="small"
+                    >
+                      <InputLabel htmlFor="service_status">
+                        Service Status
+                      </InputLabel>
+                      <Select
+                        native
+                        defaultValue={editData.status ? "Active" : "Inactive"}
+                        onChange={onChange}
+                        label="Service Status"
+                        inputProps={{
+                          id: "service_status",
+                        }}
+                      >
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+              </div>
+            </GridItem>
+
+            <GridItem xs={12} sm={12} md={12}>
+              {editorLoaded ? (
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={editData.usage}
+                  onReady={(editor) => {
+                    editor.editing.view.change((writer) => {
+                      writer.setStyle(
+                        "height",
+                        "160px",
+                        editor.editing.view.document.getRoot()
+                      );
+                    });
+                  }}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    setUsage(data);
+                  }}
+                />
+              ) : (
+                <p>editor..</p>
               )}
-            />
-          </GridItem>
+            </GridItem>
 
-          <GridItem xs={6} sm={4} md={4}>
-            <div className={classes.select}>
-              <Controller
-                name="category"
-                defaultValue={data.category}
-                control={control}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    size="small"
-                  >
-                    <InputLabel htmlFor="category">Service Category</InputLabel>
-                    <Select
-                      native
-                      defaultValue={data.category}
-                      onChange={onChange}
-                      label="Service Category"
-                      inputProps={{
-                        id: "category",
-                      }}
-                    >
-                      {serviceCategoryOptions.map((item, i) => (
-                        <option key={i} value={item.value}>
-                          {item.text}
-                        </option>
-                      ))}
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </div>
-          </GridItem>
-          <GridItem xs={6} sm={4} md={4}>
-            <Multiselect
-              options={serviceSubCategoryOptions}
-              selectedValues={serviceData.subCategories}
-              onSelect={onCatSelect}
-              onRemove={onCatRemove}
-              placeholder="+ Add Sub Category"
-              id="catOption"
-              isObject={false}
-              className="catDrowpdown"
-            />
-          </GridItem>
-
-          <GridItem xs={6} sm={4} md={4}>
-            <div className={classes.select}>
-              <Controller
-                name="status"
-                control={control}
-                defaultValue={data.status}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    size="small"
-                  >
-                    <InputLabel htmlFor="service_status">
-                      Service Status
-                    </InputLabel>
-                    <Select
-                      native
-                      defaultValue={data.status}
-                      onChange={onChange}
-                      label="Service Status"
-                      inputProps={{
-                        id: "service_status",
-                      }}
-                    >
-                      <option value="Active">Active</option>
-                      <option value="Inactive">Inactive</option>
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </div>
-          </GridItem>
-
-          <GridItem xs={12} sm={12} md={12}>
-            {editorLoaded ? (
-              <CKEditor
-                editor={ClassicEditor}
-                data={data.usage}
-                onReady={(editor) => {
-                  editor.editing.view.change((writer) => {
-                    writer.setStyle(
-                      "height",
-                      "160px",
-                      editor.editing.view.document.getRoot()
-                    );
-                  });
-                }}
-                onChange={(event, editor) => {
-                  const data = editor.getData();
-                  setUsage(data);
-                }}
-              />
-            ) : (
-              <p>editor..</p>
-            )}
-          </GridItem>
-
-          <GridItem xs={12} sm={12} md={12} style={{ textAlign: "center" }}>
-            <div>
-              <Button
-                type="button"
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit(onSubmit)}
-              >
-                {isProcessing ? "Updating..." : `Update`}
-              </Button>
-            </div>
-          </GridItem>
-        </GridContainer>
-      </form>
+            <GridItem xs={12} sm={12} md={12} style={{ textAlign: "center" }}>
+              <div>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  {isProcessing ? "Updating..." : `Update`}
+                </Button>
+              </div>
+            </GridItem>
+          </GridContainer>
+        </form>
+      )}
       <ToastMessage
         open={open}
         success={success}
@@ -489,8 +487,8 @@ ServiceEditPage.layout = Admin;
 
 export default ServiceEditPage;
 
-export async function getServerSideProps({ params, req, res }) {
-  const session = await getSession({ req });
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
   if (!session) {
     return {
       redirect: {
@@ -499,22 +497,11 @@ export async function getServerSideProps({ params, req, res }) {
       },
     };
   }
-  try {
-    const { id } = params;
-    const post = await prisma.services.findFirst({
-      where: {
-        id: Number(id),
-      },
-    });
 
-    return {
-      props: { post: JSON.stringify(post) },
-    };
-  } catch (error) {
-    console.log(error);
-  } finally {
-    async () => {
-      await prisma.$disconnect();
-    };
-  }
+  const result = await fetch(`${process.env.NEXTAUTH_URL}/api/categories`);
+  const data = await result.json();
+
+  return {
+    props: { categories: data.data },
+  };
 }

@@ -7,8 +7,13 @@ export default async function handler(req, res) {
   try {
     const product = await prisma.services.findMany({
       take: perPage * curPage,
+      include: {
+        category: {
+          select: { name: true },
+        },
+      },
     });
-
+    console.log(product);
     const totalProducts = product.length;
 
     res.status(200).json({
